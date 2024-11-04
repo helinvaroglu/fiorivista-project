@@ -4,7 +4,7 @@ import {Flex, Box, Heading, FormControl, FormLabel, Input, Button} from '@chakra
 // import validationSchema from './validations';
 import axios from 'axios';
 
-// TODO: show validation errors to users
+// TODO: do validations
 
 function Signup() {
  

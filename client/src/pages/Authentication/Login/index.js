@@ -3,7 +3,7 @@ import { Flex, Box, Heading, FormControl, FormLabel, Input, Button } from '@chak
 
 // import validationSchema from './validations';
 
-// TODO: check user data from backend
+// TODO: do validations
 
 function Login() {
 
