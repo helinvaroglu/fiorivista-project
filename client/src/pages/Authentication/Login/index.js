@@ -7,7 +7,6 @@ import { Flex, Box, Heading, FormControl, FormLabel, Input, Button } from '@chak
 
 function Login() {
 
-
   const [message, setMessage] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,8 +37,9 @@ function Login() {
                 <FormLabel color="#323232">Email Address</FormLabel>
                 <Input
                   name="email"
+                  id="email"
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email Address"
+                  placeholder="Email Address" required
                   // onBlur={formik.handleBlur}
                   // value={formik.values.email}
                   // isInvalid={formik.errors.email && formik.touched.email}
@@ -50,9 +50,10 @@ function Login() {
                 <FormLabel color="#323232">Password</FormLabel>
                 <Input
                   name="password"
+                  id="password"
                   type="password"
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
+                  placeholder="Password" required
                   // onBlur={formik.handleBlur}
                   // value={formik.values.password}
                   // isInvalid={formik.errors.password && formik.touched.password}
