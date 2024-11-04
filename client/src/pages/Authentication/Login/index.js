@@ -1,24 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Flex, Box, Heading, FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 
-import { useFormik } from 'formik';
-import validationSchema from './validations';
+// import validationSchema from './validations';
 
 // TODO: check user data from backend
 
 function Login() {
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema,
-    onSubmit: async (values, bag) => {
-      // printing out the form
-      console.log(values);
-    },
-  });
+
+  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+ 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const data = {
+      email,
+      password
+    }
+
+    console.log(data);
+  }
+  
 
   return (
     <div>
@@ -29,16 +32,17 @@ function Login() {
           </Box>
           <Box my={5} textAlign="left">
 
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={handleLogin}>
 
               <FormControl mt="4">
-                <FormLabel color="#323232">E-mail</FormLabel>
+                <FormLabel color="#323232">Email Address</FormLabel>
                 <Input
                   name="email"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.email}
-                  isInvalid={formik.errors.email && formik.touched.email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email Address"
+                  // onBlur={formik.handleBlur}
+                  // value={formik.values.email}
+                  // isInvalid={formik.errors.email && formik.touched.email}
                 />
               </FormControl>
 
@@ -47,12 +51,17 @@ function Login() {
                 <Input
                   name="password"
                   type="password"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.password}
-                  isInvalid={formik.errors.password && formik.touched.password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  // onBlur={formik.handleBlur}
+                  // value={formik.values.password}
+                  // isInvalid={formik.errors.password && formik.touched.password}
                 />
               </FormControl>
+
+              {
+                message && <p className="#D22B2B">{message}</p>
+              }
 
               <Button mt="6" width="full" type="submit" color="#3D52A0" bg="#ADBBDA">
                 Log in
