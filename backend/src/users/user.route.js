@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('./user.model');
+const generateToken = require('../middleware/token');
 
 // API endpoints
 
@@ -32,7 +33,23 @@ router.post("/login", async (req, res) => {
             return res.status(401).send({message: 'Wrong password!'})
         }
 
-        res.status(200).send({message: "Logged in successfully!", user});
+        // generating token for keeping users info after logging in
+        const token = await generateToken(user._id);
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None'
+        })
+
+        res.status(200).send({message: "Logged in successfully!", token, user: {
+            _id: user._id,
+            fullName: user.fullName,
+            password: user.password,
+            confirmPassword: user.confirmPassword,
+            role: user.role,
+            phoneNumber: user.phoneNumber
+        }});
     
     } catch (error) {
         console.error("Error occurred while logging in.", error);
