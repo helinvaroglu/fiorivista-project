@@ -12,7 +12,7 @@ router.post("/signup", async (req, res) => {
         await user.save();
         res.status(201).send({message: "Signed up successfully!"})
     } catch (error) {
-
+        console.error("Error occurred while signing up.", error);
     }
 })
 
