@@ -1,4 +1,5 @@
 const {Schema, model} = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
     fullName: {type: String, require: true},
@@ -9,6 +10,20 @@ const userSchema = new Schema({
         type: String, default: 'user'
     },
     phoneNumber: {type: String}
+})
+
+// compare passwords
+userSchema.methods.comparePassword = function (currPassword) {
+    return bcrypt.compare(currPassword, this.password);
+}
+
+// hash passwords to ensure the security
+userSchema.pre('save', async function(next) {
+    const user = this;
+    if(!user.isModified('password')) return next();
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    user.password = hashedPassword;
+    next();
 })
 
 const User = new model('User', userSchema);
