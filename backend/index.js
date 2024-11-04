@@ -20,6 +20,11 @@ app.use(cors({
     credentials: true
 }))
 
+// routes
+const authRoutes = require('./src/users/user.route');
+
+app.use('/api/auth', authRoutes);
+
 // connecting project with database
 main()
     .then(() => console.log("Database is successfully connected."))
