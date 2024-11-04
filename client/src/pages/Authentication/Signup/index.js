@@ -1,27 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Flex, Box, Heading, FormControl, FormLabel, Input, Button} from '@chakra-ui/react';
 
-import {useFormik} from 'formik';
-import validationSchema from './validations';
+// import validationSchema from './validations';
+import axios from 'axios';
 
-// TODO: Send login data to backend
-// TODO: show validation errors to users
+// TODO: do validations
 
 function Signup() {
  
-  const formik = useFormik({
-    initialValues: {
-      fullName: "",
-      email: "",
-      password: "",
-      reenterPassword: "",
-    },
-    validationSchema,
-    onSubmit: async (values, bag) => {
-      // printing out the form
-      console.log(values);
-    },
-  });
+  const [message, setMessage] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+ 
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    const data = {
+      fullName,
+      email,
+      password,
+      confirmPassword
+    }
+
+    console.log(data);
+  }
 
   return (
     <div>
@@ -32,15 +35,19 @@ function Signup() {
           </Box>
           <Box my={5} textAlign="left">
 
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={handleSignup}>
+
               <FormControl>
                 <FormLabel color="#323232">Full Name</FormLabel>
                 <Input 
                   name="fullName"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.fullName}
-                  isInvalid={formik.errors.fullName && formik.touched.fullName}
+                  id="fullName"
+                  type="text"
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Full Name" required
+                  // onBlur={formik.handleBlur}
+                  // value={formik.values.fullName}
+                  // isInvalid={formik.errors.fullName && formik.touched.fullName}
                 />
               </FormControl>
               
@@ -48,10 +55,12 @@ function Signup() {
                 <FormLabel color="#323232">E-mail</FormLabel>
                 <Input
                   name="email"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.email}
-                  isInvalid={formik.errors.email && formik.touched.email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email Address" required
+                  id="email"
+                  // onBlur={formik.handleBlur}
+                  // value={formik.values.email}
+                  // isInvalid={formik.errors.email && formik.touched.email}
                 />
               </FormControl>
 
@@ -59,25 +68,33 @@ function Signup() {
                 <FormLabel color="#323232">Password</FormLabel>
                 <Input
                   name="password"
+                  id="password"
                   type="password"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.password}
-                  isInvalid={formik.errors.password && formik.touched.password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password" required
+                  // onBlur={formik.handleBlur}
+                  // value={formik.values.password}
+                  // isInvalid={formik.errors.password && formik.touched.password}
                 />
               </FormControl>
 
               <FormControl mt="4">
-                <FormLabel color="#323232">Re-enter the password</FormLabel>
+                <FormLabel color="#323232">Confirm password</FormLabel>
                 <Input
-                  name="reenterPassword"
+                  name="confirmPassword"
+                  id="confirmPassword"
                   type="password"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.reenterPassword}
-                  isInvalid={formik.errors.reenterPassword && formik.touched.reenterPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirm password" required
+                  // onBlur={formik.handleBlur}
+                  // value={formik.values.reenterPassword}
+                  // isInvalid={formik.errors.reenterPassword && formik.touched.reenterPassword}
                 />
               </FormControl>
+
+              {
+                message && <p className="#D22B2B">{message}</p>
+              }
 
               <Button mt="6" width="full" type="submit" color="#3D52A0" bg="#ADBBDA">
                 Sign up
