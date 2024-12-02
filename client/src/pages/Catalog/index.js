@@ -1,23 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Grid } from '@chakra-ui/react';
 
 import Card from '../../components/Card';
 import FilterBar from '../../components/FilterBar';
+import products from '../../data/products.json'
+
 
 function Catalog() {
+  const [listProducts, setListProducts] = useState();
+
   return (
     <div>
       <div>
         <FilterBar />
       </div>
       <div>
-        <Grid templateColumns='repeat(4, 1fr)' gap={5}>
-            {/* TODO: dynamically add items, these are hard-coded items*/}
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-        </Grid>
+        <Card products={products}></Card>
       </div>
     </div>
   )
