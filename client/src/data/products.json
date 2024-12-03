@@ -1,0 +1,93 @@
+[
+    {
+      "id": 1,
+      "name": "Wireless Headphones",
+      "price": 99.99,
+      "image": "https://picsum.photos/400/200?1",
+      "attribute": "Bluetooth 5.0",
+      "description": "High-quality wireless headphones with noise cancellation and long battery life.",
+      "rating": 4.5
+    },
+    {
+      "id": 2,
+      "name": "Smartphone Stand",
+      "price": 14.99,
+      "image": "https://picsum.photos/400/200?2",
+      "attribute": "Adjustable Angle",
+      "description": "Durable and portable smartphone stand for hands-free viewing.",
+      "rating": 4.3
+    },
+    {
+      "id": 3,
+      "name": "Gaming Keyboard",
+      "price": 49.99,
+      "image": "https://picsum.photos/400/200?3",
+      "attribute": "Mechanical Keys",
+      "description": "RGB mechanical gaming keyboard with customizable backlighting.",
+      "rating": 4.7
+    },
+    {
+      "id": 4,
+      "name": "Stainless Steel Water Bottle",
+      "price": 19.99,
+      "image": "https://picsum.photos/400/200?4",
+      "attribute": "Insulated",
+      "description": "Keeps beverages hot or cold for up to 24 hours.",
+      "rating": 4.6
+    },
+    {
+      "id": 5,
+      "name": "Laptop Backpack",
+      "price": 34.99,
+      "image": "https://picsum.photos/400/200?5",
+      "attribute": "Water-Resistant",
+      "description": "Spacious and durable backpack with multiple compartments.",
+      "rating": 4.4
+    },
+    {
+      "id": 6,
+      "name": "Portable Charger",
+      "price": 29.99,
+      "image": "https://picsum.photos/400/200?6",
+      "attribute": "10,000mAh",
+      "description": "Compact and high-capacity power bank with fast charging capabilities.",
+      "rating": 4.8
+    },
+    {
+      "id": 7,
+      "name": "Noise Cancelling Earbuds",
+      "price": 89.99,
+      "image": "https://picsum.photos/400/200?7",
+      "attribute": "True Wireless",
+      "description": "Comfortable and lightweight earbuds with exceptional sound quality.",
+      "rating": 4.5
+    },
+    {
+      "id": 8,
+      "name": "Fitness Tracker",
+      "price": 39.99,
+      "image": "https://picsum.photos/400/200?8",
+      "attribute": "Heart Rate Monitor",
+      "description": "Tracks your fitness activities, heart rate, and sleep patterns.",
+      "rating": 4.2
+    },
+    {
+      "id": 9,
+      "name": "Coffee Maker",
+      "price": 59.99,
+      "image": "https://picsum.photos/400/200?9",
+      "attribute": "Programmable Timer",
+      "description": "Brews a perfect cup of coffee with customizable settings.",
+      "rating": 4.6
+    },
+    {
+      "id": 10,
+      "name": "Desk Lamp",
+      "price": 24.99,
+      "image": "https://picsum.photos/400/200?10",
+      "attribute": "LED with Dimming",
+      "description": "Energy-efficient desk lamp with adjustable brightness levels.",
+      "rating": 4.3
+    }
+]
+  
