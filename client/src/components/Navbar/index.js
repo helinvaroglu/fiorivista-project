@@ -1,6 +1,7 @@
 import styles from './styles.module.css';
 import React from 'react';
 import { Button, Icon, Input } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 import { FaShoppingCart } from 'react-icons/fa'; 
 
 import {
@@ -10,6 +11,10 @@ import {
 // created the navbar to navigate through pages
 
 function Navbar() {
+
+  const products = useSelector((state) => state.cart.products);
+  console.log(products);
+
   return (
       <nav className={styles.nav}>
           <div className={styles.left}>

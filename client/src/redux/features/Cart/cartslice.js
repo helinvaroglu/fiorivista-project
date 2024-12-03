@@ -12,24 +12,19 @@ export const cartSlice = createSlice({
             const isExist = state.products.find((product) => product._id === action.payload._id);
 
             if(!isExist) {
-                state.products.push({...action.payload, quantity: 1})
+                state.products = [{...action.payload, quantity: 1}]
             } else {
                 console.log("Item has been already added.")
             };
-            state.addedItems = setAddedItems(state);
+            state.addedItems = 1; // since only one product can be purchased at one time
             state.totalPrice = setTotalPrice(state);
         }
     }
 })
 
-// function to keep added items
-export const setAddedItems = (state) => state.products.reduce((total, product) => {
-    return Number(total + product.quantity)
-})
-
 // function to calculate total price
-export const setTotalPrice = (state) => state.products.reduce((total, product) => {
-    return Number(total + product.quantity * product.price)
+export const setTotalPrice = (state) => state.products.reduce((product) => {
+    return Number(product.price)
 })
 
 export const { addToCart } = cartSlice.actions;

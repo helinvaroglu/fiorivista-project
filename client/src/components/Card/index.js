@@ -11,11 +11,11 @@ import {addToCart} from '../../redux/features/Cart/cartslice'
 // box is used as div (element of chakra ui)
 
 const Card = ({products}) => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    // const handleAddToCart = (product) => {
-    //     dispatch(addToCart(product))
-    // }
+    const handleAddToCart = (product) => {
+        dispatch(addToCart(product));
+    }
 
     return (
     <Grid templateColumns='repeat(4, 1fr)' gap={5}>
@@ -30,7 +30,12 @@ const Card = ({products}) => {
                         <Text fontWeight="bold" color="#323232">{product.name}</Text>
                         <Flex align="center">
                             <Text color="#323232"  mr="2">{product.price} TL</Text>
-                            <Button size="sm" bg="#7091E6" color="#FDFDFF" _hover={{ color: '#323232' }}>
+                            <Button size="sm" bg="#7091E6" color="#FDFDFF" _hover={{ color: '#323232' }}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleAddToCart(product);
+                            }}
+                            >
                                 <Icon as={FaShoppingCart} />
                             </Button>
                         </Flex>
