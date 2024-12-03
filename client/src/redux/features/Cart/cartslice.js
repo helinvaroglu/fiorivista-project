@@ -18,6 +18,11 @@ export const cartSlice = createSlice({
             };
             state.addedItems = 1; // since only one product can be purchased at one time
             state.totalPrice = setTotalPrice(state);
+        },
+        removeFromCart: (state) => {
+            state.products = [];
+            state.addedItems = 0;
+            state.totalPrice = 0;
         }
     }
 })
@@ -27,6 +32,6 @@ export const setTotalPrice = (state) => state.products.reduce((product) => {
     return Number(product.price)
 })
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
