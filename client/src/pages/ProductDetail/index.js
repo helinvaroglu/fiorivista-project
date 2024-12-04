@@ -16,9 +16,8 @@ function ProductDetail() {
         <Box 
         display="flex"
         justifyContent="center"
-        minHeight="80vh"
       >
-            <Box m={5} bg="#ADBBDA" p={4} borderRadius="md" boxShadow="md" >
+            <Box m={5} bg="#ADBBDA" p={4} borderRadius="md" boxShadow="md">
                 <Grid templateColumns="repeat(2, 1fr)" gap={6} alignItems="center">
                     <GridItem colSpan={1} display="flex" alignItems="center"  h="100%">
                         <Image src={product.image}  alt="product" />
