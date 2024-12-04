@@ -6,6 +6,8 @@ import {
   Route
 } from "react-router-dom";
 
+import products from './data/products.json'
+
 import Navbar from './components/Navbar';
 import Catalog from './pages/Catalog';
 import ProductDetail from './pages/ProductDetail';
@@ -24,7 +26,7 @@ function App() {
         <div id="content">
           <Routes>
             <Route path="/" exact element={<Catalog />} />
-            <Route path="/product/:product_id" element={<ProductDetail />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
           </Routes>

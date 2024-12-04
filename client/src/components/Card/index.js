@@ -1,6 +1,5 @@
 import React from 'react';
-import {Box, Image, Button, Text, Flex, Icon, Grid} from '@chakra-ui/react'
-
+import {Box, Image, Button, Text, Flex, Icon, Grid} from '@chakra-ui/react';
 import {Link} from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa'; 
 import { useDispatch } from 'react-redux';
@@ -16,12 +15,12 @@ const Card = ({products}) => {
     const handleAddToCart = (product) => {
         dispatch(addToCart(product));
     }
-
+    
     return (
     <Grid templateColumns='repeat(4, 1fr)' gap={5}>
         {products.map((product, index) => (
             <Box key={index} className='product-card' borderWidth="1px" borderRadius="lg" overflow="hidden" p="3" pb="0" bg="#ADBBDA">
-                <Link to={`/product/${product._id}`}>
+                <Link to={`/product/${product.id}`}>
                     <Image src={product.image}  alt="product" />
                 </Link>
 
