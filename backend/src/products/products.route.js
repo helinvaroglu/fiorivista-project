@@ -37,4 +37,22 @@ router.get('/', async (req,res) => {
     }  
 })
 
+// get single product
+router.get("/:id", async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const product = await Products.findById(productId);
+
+        if(!product) {
+            return res.status(404).send({ message: "Product not found"});
+        }
+
+        res.status(200).send({product});
+        
+    } catch (error) {
+        console.error("Error getting one product.", error);
+        res.status(500).send({ message: "Failed to get the product."});
+    }
+})
+
 module.exports = router;
