@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Text, Button, Image, VStack} from '@chakra-ui/react';
+import {Box, Text, Button, Image, Flex} from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { Grid, GridItem  } from '@chakra-ui/react';
 
@@ -29,9 +29,11 @@ function ProductDetail() {
                         <Text fontSize="xl" color="#F5D158" mb={2}>
                             {product.rating}
                         </Text>
-                        <Text fontSize="md" color="#323232" mb={10}>
-                            {product.description}
-                        </Text>
+                        <Flex justifyContent="space-between">
+                            <Text fontSize="md" color="#323232" mb={10}>
+                                {product.description}
+                            </Text>
+                        </Flex>
                         <Text fontSize="xl" fontWeight="bold" color="#3D52A0" mb={4}>
                             {product.price}
                         </Text>
