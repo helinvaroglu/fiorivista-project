@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { Select, Box, Flex, Text, Divider, Heading, FormControl, FormLabel, Input, Button, NumberInputField, NumberInput, ButtonGroup, Spacer} from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function Payment() {
     const [message, setMessage] = useState('');
@@ -13,6 +13,9 @@ function Payment() {
 
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const product = location.state?.product;
+    console.log(product);
 
     const handleCardInfo = async (e) => {
         e.preventDefault();
@@ -24,12 +27,12 @@ function Payment() {
             cvcNumber
         }
     
-        console.log(data);
+        console.log(product);
 
         const isSuccess = true; 
         if (isSuccess) {
             // Navigate to payment page
-            navigate('/paymentconfirmed');
+            navigate('/paymentconfirmed', { state: { product } });
         } else {
             setMessage('Failed to submit card information. Please try again.');
         }
@@ -135,16 +138,23 @@ function Payment() {
             borderRadius="md"
             p={4}
             boxShadow="sm"
+            height="18rem"
             >
             <Heading size="md" mb={4} color="#3D52A0">
                 Order Summary
             </Heading>
             <Divider mb={4} />
-            <Text mb={2}>Product 1: $20.00</Text>
-            <Text mb={2}>Product 2: $15.00</Text>
-            <Text mb={2}>Shipping: $5.00</Text>
-            <Divider my={4} />
-            <Text fontWeight="bold">Total: $40.00</Text>
+            {product ? (
+                <>
+                    <Text mb={2}>Product Name: {product.name}</Text>
+                    <Text mb={2}>Price: ${product.price}</Text>
+                    <Text mb={2}>Quantity: 1</Text>
+                    <Divider my={4} />
+                    <Text fontWeight="bold">Total: ${product.price}</Text>
+                </>
+            ) : (
+                <Text>No products selected.</Text>
+            )}
             </Box>
         </Flex>
   )

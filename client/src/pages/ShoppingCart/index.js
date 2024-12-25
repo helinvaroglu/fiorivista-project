@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'; 
 import { useDispatch } from 'react-redux';
 import { removeFromCart } from '../../redux/features/Cart/cartslice';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCreateOrderMutation } from './api';
 import { useToast } from '@chakra-ui/react';
 
@@ -20,6 +20,7 @@ const ShoppingCart = ({products, isOpen, onClose}) => {
     const dispatch = useDispatch();
     const [createOrder, { isLoading }] = useCreateOrderMutation();
     const toast = useToast();
+    const navigate = useNavigate();
     
     const handleRemoveFromCart = () => {
         dispatch(removeFromCart());
@@ -28,13 +29,13 @@ const ShoppingCart = ({products, isOpen, onClose}) => {
     const handleOrderNow = async (product) => {
         try {
             const orderData = {
-                productName: product.name, // Map `name` to `productName`
+                productName: product.name, 
                 price: product.price,
-                quantity: 1, // Default quantity to 1 or get from user input
-                imageUrl: product.image, // Map `image` to `imageUrl`
+                quantity: 1, 
+                imageUrl: product.image, 
             };
     
-            console.log('Order Data:', orderData); // Debugging log
+            console.log('Order Data:', orderData);
             const response = await createOrder(orderData).unwrap();
             console.log('Order created successfully:', response);
             toast({
@@ -43,6 +44,7 @@ const ShoppingCart = ({products, isOpen, onClose}) => {
                 duration: 3000,
                 isClosable: true,
             });
+            navigate('/checkout', { state: { product } });
         } catch (error) {
             console.error('Failed to place order:', error);
             toast({

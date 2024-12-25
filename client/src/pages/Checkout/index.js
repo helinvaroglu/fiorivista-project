@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { Box, Flex, Text, Divider, Heading, FormControl, FormLabel, Input, Button, NumberInputField, NumberInput, Textarea} from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function Checkout() {
     const [message, setMessage] = useState('');
@@ -11,6 +11,8 @@ function Checkout() {
     const [cityName, setCityName] = useState('');
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const product = location.state?.product;
 
     const handleDeliveryInfo = async (e) => {
         e.preventDefault();
@@ -27,7 +29,7 @@ function Checkout() {
         const isSuccess = true; 
         if (isSuccess) {
             // Navigate to sender information page
-            navigate('/senderinformation');
+            navigate('/senderinformation',{ state: { product } });
         } else {
             setMessage('Failed to submit delivery information. Please try again.');
         }
@@ -127,16 +129,23 @@ function Checkout() {
         borderRadius="md"
         p={4}
         boxShadow="sm"
+        height="18rem"
       >
         <Heading size="md" mb={4} color="#3D52A0">
           Order Summary
         </Heading>
         <Divider mb={4} />
-        <Text mb={2}>Product 1: $20.00</Text>
-        <Text mb={2}>Product 2: $15.00</Text>
-        <Text mb={2}>Shipping: $5.00</Text>
-        <Divider my={4} />
-        <Text fontWeight="bold">Total: $40.00</Text>
+        {product ? (
+          <>
+              <Text mb={2}>Product Name: {product.name}</Text>
+              <Text mb={2}>Price: ${product.price}</Text>
+              <Text mb={2}>Quantity: 1</Text>
+              <Divider my={4} />
+              <Text fontWeight="bold">Total: ${product.price}</Text>
+          </>
+        ) : (
+          <Text>No products selected.</Text>
+        )}
       </Box>
     </Flex>
   )
