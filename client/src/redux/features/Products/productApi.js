@@ -24,8 +24,8 @@ const productsApi = createApi({
             providesTags: ["Products"]
         }),
         fetchSingleProduct: builder.query({
-            query: (id) => `/${id}`, 
-            providesTags: (result, error, id) => [{type: "Products", id}] 
+            query: (_id) => `/${_id}`, 
+            providesTags: (result, error, _id) => [{type: "Products", id: _id}] 
         }),
     })
 })

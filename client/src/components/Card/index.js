@@ -20,7 +20,7 @@ const Card = ({products}) => {
     <Grid templateColumns='repeat(4, 1fr)' gap={5}>
         {products.map((product, index) => (
             <Box key={index} className='product-card' borderWidth="1px" borderRadius="lg" overflow="hidden" p="3" pb="0" bg="#ADBBDA">
-                <Link to={`/product/${product.id}`}>
+                <Link to={`/products/${product._id}`}>
                     <Image src={product.image}  alt="product" />
                 </Link>
 
