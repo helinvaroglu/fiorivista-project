@@ -27,7 +27,7 @@ function Checkout() {
         const isSuccess = true; 
         if (isSuccess) {
             // Navigate to sender information page
-            navigate('/senderInfo');
+            navigate('/senderinformation');
         } else {
             setMessage('Failed to submit delivery information. Please try again.');
         }

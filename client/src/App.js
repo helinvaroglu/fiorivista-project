@@ -13,6 +13,8 @@ import Signup from './pages/Authentication/Signup';
 import Login from './pages/Authentication/Login';
 import Checkout from './pages/Checkout';
 import SenderInfo from './pages/SenderInfo';
+import Payment from './pages/Payment';
+
 
 
 // all routes are defined here
@@ -31,7 +33,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/checkout" element={<Checkout />} />
-            <Route path="/senderinfo" element={<SenderInfo />} />
+            <Route path="/senderinformation" element={<SenderInfo />} />
+            <Route path="/payment" element={<Payment />} />
           </Routes>
         </div>
       </div>
