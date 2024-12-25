@@ -14,6 +14,8 @@ import Login from './pages/Authentication/Login';
 import Checkout from './pages/Checkout';
 import SenderInfo from './pages/SenderInfo';
 import Payment from './pages/Payment';
+import PaymentConfirmed from './pages/PaymentConfirmed';
+
 
 
 
@@ -35,6 +37,7 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/senderinformation" element={<SenderInfo />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/paymentconfirmed" element={<PaymentConfirmed />} />
           </Routes>
         </div>
       </div>
