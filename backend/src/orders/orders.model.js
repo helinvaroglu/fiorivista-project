@@ -1,18 +1,10 @@
-const mongoose = require('mongoose');
-const orderSchema = new mongoose.Schema({
-    orderId: String,
-    products: [
-        {
-            productId: { type: String, required: true}
-        }
-    ],
-    email: {type: String, required: true},
-    status: {
-        type: String,
-        enum: ["pending", "processing", "shipped", "completed"],
-        default: "pending"
-    }
-}, {timestamps: true})
+const mongoose = require("mongoose");
 
-const Order = mongoose.model('Order', orderSchema);
-module.exports = Order;
+const OrderSchema = new mongoose.Schema({
+    productName: { type: String, required: true },
+    price: { type: Number, required: true },
+    quantity: { type: Number, required: true },
+    imageUrl: { type: String, required: true },
+});
+
+module.exports = mongoose.model("Order", OrderSchema);

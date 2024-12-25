@@ -1,74 +1,33 @@
-const express = require('express');
-const router = express.Router();
+const express = require("express");
+const mongoose = require("mongoose");
 const Order = require("./orders.model");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-// checkout session
-router.post("/create-checkout-session", async (req, res) => {
-    const {products} = req.body;
+const router = express.Router();
 
+// Add a new order
+router.post("/addorder", async (req, res) => {
     try {
-        const lineItems = products.map((product) => ({
-            price_data: {
-                currency: "tl",
-                product_data: {
-                    name: product.name,
-                    images: [product.image]
-                },
-                amount: product.price
-            }
-        }))
+        const { productName, price, quantity, imageUrl } = req.body;
 
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
-            line_items: lineItems,
-            mode: 'payment',
-            success_url: `http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `$http://localhost:3000/canceled`,
-        })
+        const order = new Order({ productName, price, quantity, imageUrl });
+        await order.save();
 
-        res.json({id: session.id})
-
-    } catch (error) {
-        console.error("Error creating checkout:", error);
-        res.status(500).send({message: "Failed to create checkout"});
+        res.status(201).json(order);
+    } catch (err) {
+        console.error("Error adding order:", err);
+        res.status(500).json({ error: "Failed to add order" });
     }
 });
 
-// confirm payment
-router.post("/confirm-payment", async (req, res) => {
-    const {session_id} = req.body;
+// Get all orders
+router.get("/getorders", async (req, res) => {
     try {
-        const session = await stripe.checkout.sessions.retrieve(session_id, {
-            expand: ["line_items", "payment_intent"]
-        });
-
-        const paymentIntentId = session.payment_intent.id;
-        let order = await Order.findOne({orderId: paymentIntentId});
-
-        if(!order) {
-            const lineItems = session.line_items.data.map((item) => ({
-
-            }));
-
-            const amount = session.amount_total / 100;
-            order = new Order({
-                orderId: paymentIntentId,
-                amount,
-                products: lineItems,
-                email: session.customer_details.email,
-                status: session.payment_intent.status === "succeed" ? "pending" : "failed"
-            })
-        } else {
-            order.status = session.payment_intent.status === "succeed" ? "pending" : "failed";
-        }
-        await order.save();
-        res.json({order});
-        
-    } catch (error) {
-        console.error("Error confirming payment:", error);
-        res.status(500).json({error: "Failed to confirm payment"});
+        const orders = await Order.find();
+        res.status(200).json(orders);
+    } catch (err) {
+        console.error("Error fetching orders:", err);
+        res.status(500).json({ error: "Failed to fetch orders" });
     }
-})
+});
 
 module.exports = router;
