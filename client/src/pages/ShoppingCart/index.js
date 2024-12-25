@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'; 
 import { useDispatch } from 'react-redux';
 import { removeFromCart } from '../../redux/features/Cart/cartslice';
+import { Link } from 'react-router-dom';
 
 const ShoppingCart = ({products, isOpen, onClose}) => {
     const dispatch = useDispatch();
@@ -34,7 +35,9 @@ const ShoppingCart = ({products, isOpen, onClose}) => {
                                 <Text color="#323232">Price: {product.price} TL</Text>
                                 <Text color="#323232">Quantity: {product.quantity}</Text>
                                 <Image pt={10} src={product.image}  alt="product" />
-                                <Button mt="10" width="full" type="submit" color="#3D52A0" bg="#ADBBDA">Order Now</Button>
+                                <Link to="/checkout">
+                                    <Button mt="10" width="full" type="submit" color="#3D52A0" bg="#ADBBDA">Order Now</Button>
+                                </Link>
                                 <Button mt="3" width="full" type="submit" color="#3D52A0" onClick={(e) => {
                                 e.stopPropagation();
                                 handleRemoveFromCart();

@@ -11,6 +11,9 @@ import Catalog from './pages/Catalog';
 import ProductDetail from './pages/ProductDetail';
 import Signup from './pages/Authentication/Signup';
 import Login from './pages/Authentication/Login';
+import Checkout from './pages/Checkout';
+import SenderInfo from './pages/SenderInfo';
+
 
 // all routes are defined here
 
@@ -27,6 +30,8 @@ function App() {
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/senderinfo" element={<SenderInfo />} />
           </Routes>
         </div>
       </div>
