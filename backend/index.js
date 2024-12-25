@@ -23,9 +23,12 @@ app.use(cors({
 // routes
 const authRoutes = require('./src/users/user.route');
 const productRoutes = require('./src/products/products.route');
+const orderRoutes = require("./src/orders/orders.route");
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+
 
 
 // connecting project with database
