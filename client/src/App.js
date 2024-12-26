@@ -19,6 +19,7 @@ import Checkout from './pages/Checkout';
 import SenderInfo from './pages/SenderInfo';
 import Payment from './pages/Payment';
 import PaymentConfirmed from './pages/PaymentConfirmed';
+import TrackingPage from './pages/TrackingPage/trackingpage';
 
 
 // all routes are defined here
@@ -59,6 +60,7 @@ function App() {
             <Route path="/senderinformation" element={<SenderInfo />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/paymentconfirmed" element={<PaymentConfirmed />} />
+            <Route path="/trackingpage" element={<TrackingPage />} />
           </Routes>
         </div>
       </div>

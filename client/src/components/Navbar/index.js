@@ -45,17 +45,17 @@ function Navbar() {
           <div className={styles.right}>
             {user ? (
               <>
-                <Link to="/">
+                <Link to="/trackingpage">
                   <Button
                     color="#FDFDFF"
                     bg="rgba(255, 255, 255, 0)"
                     _hover={{ color: '#323232' }}
                     variant='link'
                   >
-                    Welcome, {user.fullName}!
+                    Welcome, {user.fullName} !
                   </Button>
                 </Link>
-                <Link to="/userinformation">
+                <Link to="/">
                   <Button
                     color="#FDFDFF"
                     bg="rgba(255, 255, 255, 0)"

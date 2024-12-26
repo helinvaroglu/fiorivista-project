@@ -151,4 +151,21 @@ router.post("/finalizeOrder/:orderId", async (req, res) => {
     }
 });
 
+// Track order by trackingKey
+router.get("/track/:trackingKey", async (req, res) => {
+    try {
+        const { trackingKey } = req.params;
+
+        const order = await Order.findOne({ trackingKey });
+        if (!order) {
+            return res.status(404).json({ error: "Order not found" });
+        }
+
+        res.status(200).json(order);
+    } catch (err) {
+        console.error("Error tracking order:", err);
+        res.status(500).json({ error: "Failed to track order" });
+    }
+});
+
 module.exports = router;
