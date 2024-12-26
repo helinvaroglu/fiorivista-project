@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import { Box, Flex, Text, Divider, Heading, FormControl, FormLabel, Input, Button, NumberInputField, NumberInput} from '@chakra-ui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { updateSender } from '../../redux/features/SenderInfo/senderSlice';
+import { useDispatch } from 'react-redux';
 
 function SenderInfo() {
     const [message, setMessage] = useState('');
@@ -10,7 +12,8 @@ function SenderInfo() {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const product = location.state?.product;
+    const product = location.state?.updatedOrder;
+    const dispatch = useDispatch();
 
     const handleSenderInfo = async (e) => {
         e.preventDefault();
@@ -19,14 +22,37 @@ function SenderInfo() {
             senderPhoneNumber,
             senderEmailAddress
         }
-    
-        console.log(data);
+        console.log(data)
+        dispatch(updateSender(data));
 
-        const isSuccess = true; 
-        if (isSuccess) {
-            // Navigate to payment page
+        try {
+            // Extract orderId from the product object
+            const orderId = product?._id;
+            if (!orderId) {
+                console.error("Order ID is missing in product:", product);
+                setMessage("Order ID is missing.");
+                return;
+            }
+
+            const response = await fetch(`http://localhost:5000/api/orders/updateSender/${orderId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Response Error:', errorData);
+                throw new Error(errorData.error || 'Failed to update sender details.');
+            }
+
+            const updatedOrder = await response.json();
+            console.log('Updated order:', updatedOrder);
+
+            // Navigate to the payment page
             navigate('/payment', { state: { product } });
-        } else {
+        } catch (err) {
+            console.error(err);
             setMessage('Failed to submit sender information. Please try again.');
         }
     };
@@ -112,7 +138,7 @@ function SenderInfo() {
         <Divider mb={4} />
         {product ? (
             <>
-                <Text mb={2}>Product Name: {product.name}</Text>
+                <Text mb={2}>Product Name: {product.productName}</Text>
                 <Text mb={2}>Price: {product.price} TL</Text>
                 <Text mb={2}>Quantity: 1</Text>
                 <Divider my={4} />

@@ -54,30 +54,34 @@ router.get("/getorders", async (req, res) => {
 });
 
 // Update the order with sender details
-router.put("/addsender/:id", async (req, res) => {
+router.put("/updateSender/:orderId", async (req, res) => {
     try {
-        const { id } = req.params;
+        const { orderId } = req.params;
         const {
             senderFullName, 
             senderPhoneNumber, 
             senderEmailAddress,
         } = req.body;
 
-        const order = await Order.findById(id);
+        const updatedOrder = await Order.findByIdAndUpdate(
+            orderId,
+            {
+                $set: {
+                    sender: {
+                        fullName: senderFullName,
+                        phoneNumber: senderPhoneNumber,
+                        emailAddress: senderEmailAddress,
+                    },
+                },
+            },
+            { new: true } // Return the updated order
+        );
 
-        if (!order) {
-            return res.status(404).json({ error: "Order not found" });
+        if (!updatedOrder) {
+            return res.status(404).json({ error: 'Order not found' });
         }
 
-        order.sender = {
-            fullName: senderFullName,
-            phoneNumber: senderPhoneNumber,
-            emailAddress: senderEmailAddress,
-        };
-
-        await order.save();
-
-        res.status(200).json(order);
+        res.status(200).json(updatedOrder);
     } catch (err) {
         console.error("Error updating order:", err);
         res.status(500).json({ error: "Failed to update order" });
@@ -95,8 +99,6 @@ router.put("/updateRecipient/:orderId", async (req, res) => {
             zipCode,
             cityName,
         } = req.body;
-
-        console.log(orderId)
 
         const updatedOrder = await Order.findByIdAndUpdate(
             orderId,

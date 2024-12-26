@@ -56,7 +56,7 @@ function Checkout() {
           console.log("Updated order:", updatedOrder);
 
           // Navigate to sender information page
-          navigate("/senderinformation", { state: { orderId, product } });
+          navigate("/senderinformation", { state: { updatedOrder } });
       } catch (err) {
           console.error(err);
           setMessage("Failed to submit delivery information. Please try again.");

@@ -6,11 +6,7 @@ const OrderSchema = new mongoose.Schema({
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },
     imageUrl: { type: String, required: true },
-    sender: {
-        fullName: { type: String },
-        phoneNumber: { type: String },
-        emailAddress: { type: String },
-    },
+    sender: { type: Object, default: {}},
     recipient: { type: Object, default: {}},
 });
 
