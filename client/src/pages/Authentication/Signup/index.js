@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {Flex, Box, Heading, FormControl, FormLabel, Input, Button} from '@chakra-ui/react';
+import {Flex, Box, Heading, FormControl, FormLabel, Input, Button, Text} from '@chakra-ui/react';
+import { useRegisterUserMutation } from './api';
 
 // import validationSchema from './validations';
 import axios from 'axios';
 
-// TODO: do validations
 
 function Signup() {
  
@@ -13,9 +13,18 @@ function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
  
   const handleSignup = async (e) => {
     e.preventDefault();
+    setMessage('');
+
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match.");
+      return; // Prevent API call if passwords don't match
+    }
+
     const data = {
       fullName,
       email,
@@ -23,8 +32,13 @@ function Signup() {
       confirmPassword
     }
 
-    console.log(data);
-  }
+    try {
+      const response = await registerUser(data).unwrap();
+      setMessage(response.message || 'Signup successful!');
+    } catch (error) {
+      setMessage(error.data?.message || 'An error occurred during signup.');
+    }
+  };
 
   return (
     <div>
@@ -45,9 +59,6 @@ function Signup() {
                   type="text"
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Full Name" required
-                  // onBlur={formik.handleBlur}
-                  // value={formik.values.fullName}
-                  // isInvalid={formik.errors.fullName && formik.touched.fullName}
                 />
               </FormControl>
               
@@ -58,9 +69,6 @@ function Signup() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email Address" required
                   id="email"
-                  // onBlur={formik.handleBlur}
-                  // value={formik.values.email}
-                  // isInvalid={formik.errors.email && formik.touched.email}
                 />
               </FormControl>
 
@@ -72,9 +80,6 @@ function Signup() {
                   type="password"
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password" required
-                  // onBlur={formik.handleBlur}
-                  // value={formik.values.password}
-                  // isInvalid={formik.errors.password && formik.touched.password}
                 />
               </FormControl>
 
@@ -92,11 +97,9 @@ function Signup() {
                 />
               </FormControl>
 
-              {
-                message && <p className="#D22B2B">{message}</p>
-              }
+              {message && <Text color={message.includes('success') ? 'green' : 'red'} mt="4">{message}</Text>}
 
-              <Button mt="6" width="full" type="submit" color="#3D52A0" bg="#ADBBDA">
+              <Button mt="6" width="full" type="submit" color="#3D52A0" bg="#ADBBDA" isLoading={isLoading} loadingText="Signing up...">
                 Sign up
               </Button>
             </form>

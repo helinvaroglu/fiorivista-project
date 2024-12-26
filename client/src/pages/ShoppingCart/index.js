@@ -12,12 +12,48 @@ import {
 } from '@chakra-ui/react'; 
 import { useDispatch } from 'react-redux';
 import { removeFromCart } from '../../redux/features/Cart/cartslice';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCreateOrderMutation } from './api';
+import { useToast } from '@chakra-ui/react';
 
 const ShoppingCart = ({products, isOpen, onClose}) => {
     const dispatch = useDispatch();
+    const [createOrder, { isLoading }] = useCreateOrderMutation();
+    const toast = useToast();
+    const navigate = useNavigate();
     
     const handleRemoveFromCart = () => {
         dispatch(removeFromCart());
+    };
+
+
+    const handleOrderNow = async (product) => {
+        try {
+            const orderData = {
+                productId: product.id || product._id,
+                productName: product.name, 
+                price: product.price,
+                quantity: 1, 
+                imageUrl: product.image, 
+            };
+    
+            const response = await createOrder(orderData).unwrap();
+            toast({
+                title: 'Order placed successfully!',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            });
+            navigate('/checkout', { state: { orderData } });
+        } catch (error) {
+            console.error('Failed to place order:', error);
+            toast({
+                title: 'Failed to place order.',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+        }
     };
     return (
         <div>
@@ -34,7 +70,9 @@ const ShoppingCart = ({products, isOpen, onClose}) => {
                                 <Text color="#323232">Price: {product.price} TL</Text>
                                 <Text color="#323232">Quantity: {product.quantity}</Text>
                                 <Image pt={10} src={product.image}  alt="product" />
-                                <Button mt="10" width="full" type="submit" color="#3D52A0" bg="#ADBBDA">Order Now</Button>
+                                <Link to="/checkout">
+                                    <Button mt="10" width="full" type="submit" color="#3D52A0" bg="#ADBBDA" onClick={() => handleOrderNow(product)}>Order Now</Button>
+                                </Link>
                                 <Button mt="3" width="full" type="submit" color="#3D52A0" onClick={(e) => {
                                 e.stopPropagation();
                                 handleRemoveFromCart();

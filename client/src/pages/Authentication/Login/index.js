@@ -1,24 +1,40 @@
 import React, {useState} from 'react';
-import { Flex, Box, Heading, FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
-
-// import validationSchema from './validations';
-
-// TODO: do validations
+import { Flex, Box, Heading, FormControl, FormLabel, Input, Button, Text } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
+import { useLoginUserMutation } from './api'; 
+import { setUser } from '../../../redux/features/Auth/authslice'; 
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
   const [message, setMessage] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginUser, { isLoading }] = useLoginUserMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
  
   const handleLogin = async (e) => {
     e.preventDefault();
+    setMessage('');
+
     const data = {
       email,
       password
     }
 
-    console.log(data);
+    try {
+      const response = await loginUser(data).unwrap();
+
+      dispatch(setUser({ user: response.user, token: response.token }));
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response.user));
+
+      setMessage('Login successful!');
+      navigate('/'); 
+    } catch (error) {
+      setMessage(error.data?.message || 'An error occurred during login.');
+    }
   }
   
 
@@ -60,11 +76,13 @@ function Login() {
                 />
               </FormControl>
 
-              {
-                message && <p className="#D22B2B">{message}</p>
-              }
+              {message && (
+                <Text color={message.includes('successful') ? 'green' : 'red'} mt="4">
+                  {message}
+                </Text>
+              )}
 
-              <Button mt="6" width="full" type="submit" color="#3D52A0" bg="#ADBBDA">
+              <Button mt="6" width="full" type="submit" color="#3D52A0" bg="#ADBBDA" isLoading={isLoading} loadingText="Logging in...">
                 Log in
               </Button>
             </form>

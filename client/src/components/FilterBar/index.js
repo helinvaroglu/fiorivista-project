@@ -18,14 +18,6 @@ function FilterBar() {
         <Center height='20px'>
             <Divider orientation='vertical' />
         </Center>
-          <Button color="#3D52A0" bg="rgba(255, 255, 255, 0)" _hover={{ color: '#323232' }} variant='link'>Gender</Button>
-        <Center height='20px'>
-            <Divider orientation='vertical' />
-        </Center>
-          <Button color="#3D52A0" bg="rgba(255, 255, 255, 0)" _hover={{ color: '#323232' }} variant='link'>To Whom</Button>
-        <Center height='20px'>
-            <Divider orientation='vertical' />
-        </Center>
           <Button color="#3D52A0" bg="rgba(255, 255, 255, 0)" _hover={{ color: '#323232' }} variant='link'>Sort</Button>
 
     </nav>
