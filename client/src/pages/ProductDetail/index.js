@@ -30,30 +30,34 @@ const ProductDetail = () => {
             <Box m={5} bg="#ADBBDA" p={4} borderRadius="md" boxShadow="md">
                 <Grid templateColumns="repeat(2, 1fr)" gap={6} alignItems="center">
                     <GridItem colSpan={1} display="flex" alignItems="center"  h="100%">
-                        <Image src={singleProduct.image} alt="product" />
+                        <Flex width="400px" height="400px">
+                            <Image objectFit="cover" src={singleProduct.image} alt="product" />
+                        </Flex>
                     </GridItem>
                     <GridItem colSpan={1} display="flex" flexDirection="column" alignItems="end"  h="100%">
-                        <Text fontWeight="bold" fontSize="2xl" color="#3D52A0" mb={1}>
+                        <Text fontWeight="bold" fontSize="2xl" color="#3D52A0" mb={4}>
                             {singleProduct.name} 
                         </Text>
-                        <Text fontSize="xl" color="#F5D158" mb={2}>
+                        <Text fontSize="xl" color="#F5D158" mb={4}>
                             {singleProduct.rating}
                         </Text>
                         <Flex justifyContent="space-between">
-                            <Text fontSize="md" color="#323232" mb={10}>
+                            <Text fontSize="md" color="#323232" mt={10}>
                                 {singleProduct.description}
                             </Text>
                         </Flex>
-                        <Text fontSize="xl" fontWeight="bold" color="#3D52A0" mb={4}>
-                            {singleProduct.price}
-                        </Text>
-                        <Button bg="#7091E6" color="#FDFDFF" size="lg" 
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            handleAddToCart(singleProduct);
-                        }}>
-                            Order
-                        </Button>
+                        <Flex mt="auto" flexDirection="column" align="flex-end">
+                            <Text fontSize="xl" fontWeight="bold" color="#3D52A0" mb={4}>
+                                {singleProduct.price} TL
+                            </Text>
+                            <Button bg="#7091E6" color="#FDFDFF" size="lg" 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleAddToCart(singleProduct);
+                            }}>
+                                Order
+                            </Button>
+                        </Flex>
                     </GridItem>
                 </Grid>
             </Box>
