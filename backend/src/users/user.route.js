@@ -9,6 +9,22 @@ const generateToken = require('../middleware/token');
 router.post("/signup", async (req, res) => {
     try {
         const {fullName, email, password, confirmPassword} = req.body;
+
+        if (!fullName || !email || !password || !confirmPassword) {
+            return res.status(400).send({ message: "All fields are required." });
+        }
+
+        // Check if passwords match
+        if (password !== confirmPassword) {
+            return res.status(400).send({ message: "Passwords do not match." });
+        }
+
+        // Check if the email already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(409).send({ message: "Email already exists." });
+        }
+        
         const user = new User({fullName, email, password, confirmPassword});
         await user.save();
         res.status(201).send({message: "Signed up successfully!"})
