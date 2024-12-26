@@ -6,6 +6,10 @@ import {
   Route
 } from "react-router-dom";
 
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser, clearUser } from './redux/features/Auth/authslice'; 
+
 import Navbar from './components/Navbar';
 import Catalog from './pages/Catalog';
 import ProductDetail from './pages/ProductDetail';
@@ -17,16 +21,33 @@ import Payment from './pages/Payment';
 import PaymentConfirmed from './pages/PaymentConfirmed';
 
 
-
-
 // all routes are defined here
 
 function App() {
+
+  const dispatch = useDispatch();
+  const {user} = useSelector((state) => state.auth || {});
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (token && user) {
+      dispatch(setUser({ user, token }));
+    }
+  }, [dispatch]);
+
+  const handleLogout = () => {
+    // Clear user state and localStorage
+    dispatch(clearUser());
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  };
+
   return (
     <Router>
       <div>
 
-        <Navbar/>
+        <Navbar user={user} onLogout={handleLogout}/>
 
         <div id="content">
           <Routes>
