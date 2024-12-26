@@ -11,13 +11,7 @@ const OrderSchema = new mongoose.Schema({
         phoneNumber: { type: String },
         emailAddress: { type: String },
     },
-    recipient: {
-        fullName: { type: String },
-        phoneNumber: { type: String },
-        address: { type: String },
-        zipCode: { type: String },
-        city: { type: String },
-    },
+    recipient: { type: Object, default: {}},
 });
 
 module.exports = mongoose.model("Order", OrderSchema);

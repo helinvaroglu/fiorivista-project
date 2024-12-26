@@ -85,34 +85,40 @@ router.put("/addsender/:id", async (req, res) => {
 });
 
 // Update the order with recipient details
-router.put("/addrecipient/:id", async (req, res) => {
+router.put("/updateRecipient/:orderId", async (req, res) => {
     try {
-        const { id } = req.params;
+        const { orderId  } = req.params;
         const {
             recipientFullName,
             recipientPhoneNumber,
             recipientAddress,
             zipCode,
-            city,
+            cityName,
         } = req.body;
 
-        const order = await Order.findById(id);
+        console.log(orderId)
 
-        if (!order) {
-            return res.status(404).json({ error: "Order not found" });
+        const updatedOrder = await Order.findByIdAndUpdate(
+            orderId,
+            {
+                $set: {
+                    recipient: {
+                        fullName: recipientFullName,
+                        phoneNumber: recipientPhoneNumber,
+                        address: recipientAddress,
+                        zipCode,
+                        city: cityName,
+                    },
+                },
+            },
+            { new: true } // Return the updated order
+        );
+
+        if (!updatedOrder) {
+            return res.status(404).json({ error: 'Order not found' });
         }
 
-        order.recipient = {
-            fullName: recipientFullName,
-            phoneNumber: recipientPhoneNumber,
-            address: recipientAddress,
-            zipCode,
-            city,
-        };
-
-        await order.save();
-
-        res.status(200).json(order);
+        res.status(200).json(updatedOrder);
     } catch (err) {
         console.error("Error updating order:", err);
         res.status(500).json({ error: "Failed to update order" });

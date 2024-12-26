@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { Box, Flex, Text, Divider, Heading, FormControl, FormLabel, Input, Button, NumberInputField, NumberInput, Textarea} from '@chakra-ui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -34,13 +34,13 @@ function Checkout() {
 
         try {
           // Get orderId from the product object
-          const orderId = product?._id || order?._id;
+          const orderId = product?.productId;
           if (!orderId) {
               setMessage("Order ID is missing.");
               return;
           }
 
-          const response = await fetch(`/updateRecipient/${orderId}`, {
+          const response = await fetch(`http://localhost:5000/api/orders/updateRecipient/${orderId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
