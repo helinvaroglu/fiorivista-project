@@ -138,10 +138,10 @@ function Checkout() {
         {product ? (
           <>
               <Text mb={2}>Product Name: {product.name}</Text>
-              <Text mb={2}>Price: ${product.price}</Text>
+              <Text mb={2}>Price: {product.price} TL</Text>
               <Text mb={2}>Quantity: 1</Text>
               <Divider my={4} />
-              <Text fontWeight="bold">Total: ${product.price}</Text>
+              <Text fontWeight="bold">Total: {product.price} TL</Text>
           </>
         ) : (
           <Text>No products selected.</Text>
