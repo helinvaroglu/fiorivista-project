@@ -1,11 +1,12 @@
 import styles from './styles.module.css';
 import React, {useState} from 'react';
-import { Button, Icon, Input } from '@chakra-ui/react';
+import { Button, Icon, Input, Image } from '@chakra-ui/react';
 import { FaShoppingCart } from 'react-icons/fa'; 
 import {Link, useNavigate } from "react-router-dom";
 import ShoppingCart from '../../pages/ShoppingCart/index';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearUser } from '../../redux/features/Auth/authslice';
+import logo from '../../data/logo.png'
 
 // created the navbar to navigate through pages
 
@@ -39,7 +40,9 @@ function Navbar() {
       <nav className={styles.nav}>
           <div className={styles.left}>
             <div className="logo">
-                <Link to="/">FioriVista</Link>
+                <Link to="/">
+                  <Image height="50px" src={logo} />
+                </Link>
             </div>
 
             <ul className={styles.search}>
