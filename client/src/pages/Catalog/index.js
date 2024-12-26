@@ -15,7 +15,7 @@ function Catalog() {
     occasion: ""
   })
   const [currentPage, setCurrentPage] = useState(1);
-  const [ProductsPerPage] = useState(8);
+  const [ProductsPerPage] = useState(12);
   const { flowerType, designType, occasion, price} = filtersState;
 
   const {data: {products = [], totalPages, totalProducts} = {}, error, isLoading} = useFetchAllProductsQuery({
