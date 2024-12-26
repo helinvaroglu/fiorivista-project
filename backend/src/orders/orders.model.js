@@ -8,6 +8,7 @@ const OrderSchema = new mongoose.Schema({
     imageUrl: { type: String, required: true },
     sender: { type: Object, default: {}},
     recipient: { type: Object, default: {}},
+    trackingKey: { type: String, unique: true },
 });
 
 module.exports = mongoose.model("Order", OrderSchema);

@@ -1,9 +1,12 @@
 import React from 'react'
 import { CheckCircleIcon } from '@chakra-ui/icons'; 
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { useLocation } from "react-router-dom";
 
 
 function PaymentConfirmed() {
+  const location = useLocation();
+  const trackingKey = location.state?.trackingKey;
   return (
     <Flex
       mt={20}
@@ -23,7 +26,7 @@ function PaymentConfirmed() {
       >
         <CheckCircleIcon w={40} h={40} color="#3D52A0" mb={3}/>
         <Text color="#323232" fontSize='3xl'>Thank you for your purchase!</Text>
-        <Text color="#323232" fontSize='xl'>Order Number: 0000</Text>
+        <Text color="#323232" fontSize='xl'>Order Number: {trackingKey || "Unable to retrieve tracking key."}</Text>
       </Box>
     </Flex>
   )

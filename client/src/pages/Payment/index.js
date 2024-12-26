@@ -27,14 +27,32 @@ function Payment() {
             cvcNumber
         }
     
-        console.log(product);
-
-        const isSuccess = true; 
-        if (isSuccess) {
-            // Navigate to payment page
-            navigate('/paymentconfirmed', { state: { product } });
-        } else {
-            setMessage('Failed to submit card information. Please try again.');
+        try {
+            const orderId = product?._id;
+            if (!orderId) {
+                setMessage("Order ID is missing.");
+                return;
+            }
+    
+            // Finalize order and generate tracking key
+            const response = await fetch(`http://localhost:5000/api/orders/finalizeOrder/${orderId}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || "Failed to finalize order.");
+            }
+    
+            const finalizedOrder = await response.json();
+            console.log("Order finalized:", finalizedOrder);
+    
+            // Navigate to payment confirmation page with tracking key
+            navigate("/paymentconfirmed", { state: { trackingKey: finalizedOrder.trackingKey } });
+        } catch (err) {
+            console.error(err);
+            setMessage("Failed to finalize order. Please try again.");
         }
     };
 
@@ -146,7 +164,7 @@ function Payment() {
             <Divider mb={4} />
             {product ? (
                 <>
-                    <Text mb={2}>Product Name: {product.name}</Text>
+                    <Text mb={2}>Product Name: {product.productName}</Text>
                     <Text mb={2}>Price: {product.price} TL</Text>
                     <Text mb={2}>Quantity: 1</Text>
                     <Divider my={4} />

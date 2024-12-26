@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Order = require("./orders.model");
+const crypto = require("crypto");
 
 const router = express.Router();
 
@@ -124,6 +125,29 @@ router.put("/updateRecipient/:orderId", async (req, res) => {
     } catch (err) {
         console.error("Error updating order:", err);
         res.status(500).json({ error: "Failed to update order" });
+    }
+});
+
+
+// Finalize order and add tracking key
+router.post("/finalizeOrder/:orderId", async (req, res) => {
+    try {
+        const { orderId } = req.params;
+
+        const order = await Order.findById(orderId);
+        if (!order) {
+            return res.status(404).json({ error: "Order not found" });
+        }
+
+        if (!order.trackingKey) {
+            order.trackingKey = crypto.randomBytes(8).toString("hex"); // 16-char random hex key
+            await order.save(); 
+        }
+
+        res.status(200).json(order); 
+    } catch (err) {
+        console.error("Error finalizing order:", err);
+        res.status(500).json({ error: "Failed to finalize order" });
     }
 });
 
