@@ -6,8 +6,7 @@ const Products = require('./products.model');
 // get all products
 router.get('/', async (req,res) => {
     try {
-        const {flowerType, designType, occasion, price, page=1, limit=10} = req.query;
-        
+        const {flowerType, designType, occasion, price, page=1, limit=10, search} = req.query;
         let filter = {};
         if(flowerType && flowerType !== "all"){
             filter.flowerType = flowerType;
@@ -22,6 +21,10 @@ router.get('/', async (req,res) => {
             if(!isNaN(price)){
                 filter.price = price;
             }
+        }
+        
+        if (search) {
+            filter.name = { $regex: search, $options: "i" }; // Case-insensitive search
         }
 
         const skip = (parseInt(page) - 1) * parseInt(limit);

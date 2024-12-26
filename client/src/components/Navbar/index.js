@@ -10,12 +10,18 @@ import { clearUser } from '../../redux/features/Auth/authslice';
 // created the navbar to navigate through pages
 
 function Navbar() {
-
+  const [search, setSearch] = useState('');
   const products = useSelector((state) => state.cart.products);
   const [isCartVisible, setisCartVisible] = useState(false);
   const user = useSelector((state) => state.auth.user); // Access logged-in user info
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      navigate(`/catalog?search=${search.trim()}`); // Redirect to the catalog page with the search query
+    }
+  };
 
   const handleCartToggle = () => {
     setisCartVisible(!isCartVisible);
@@ -38,7 +44,7 @@ function Navbar() {
 
             <ul className={styles.search}>
                 <li>
-                  <Input variant='filled' placeholder='Search' size='sm' border="1px solid" borderColor='#ADBBDA' background="#ADBBDA" />
+                  <Input variant='filled' placeholder='Search' size='sm' border="1px solid" borderColor='#ADBBDA' background="#ADBBDA" value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={handleSearchKeyDown}/>
                 </li>
             </ul>
           </div>

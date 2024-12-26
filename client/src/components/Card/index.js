@@ -15,11 +15,19 @@ const Card = ({products}) => {
     const handleAddToCart = (product) => {
         dispatch(addToCart(product));
     }
+
+    if (!products || products.length === 0) {
+        return (
+            <Flex justifyContent="center" alignItems="center" height="200px">
+                <Text fontSize="lg" color="gray.600">No products found.</Text>
+            </Flex>
+        );
+    }
     
     return (
     <Grid templateColumns='repeat(4, 1fr)' gap={55}>
-        {products.map((product, index) => (
-            <Box key={index} className='product-card' borderWidth="1px" borderRadius="lg" overflow="hidden" p="3" pb="0" bg="#ADBBDA" justify="center" align="center">
+        {products.map((product) => (
+            <Box key={product._id} className='product-card' borderWidth="1px" borderRadius="lg" overflow="hidden" p="3" pb="0" bg="#ADBBDA" justify="center" align="center">
                 <Link to={`/products/${product._id}`}>
                     <Box width="350px" height="200px"  overflow="hidden">
                         <Image  width="100%"  height="100%" objectFit='cover' src={product.image}  alt="product" />
