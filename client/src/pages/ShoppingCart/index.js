@@ -26,25 +26,25 @@ const ShoppingCart = ({products, isOpen, onClose}) => {
         dispatch(removeFromCart());
     };
 
+
     const handleOrderNow = async (product) => {
         try {
             const orderData = {
+                productId: product.id || product._id,
                 productName: product.name, 
                 price: product.price,
                 quantity: 1, 
                 imageUrl: product.image, 
             };
     
-            console.log('Order Data:', orderData);
             const response = await createOrder(orderData).unwrap();
-            console.log('Order created successfully:', response);
             toast({
                 title: 'Order placed successfully!',
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
             });
-            navigate('/checkout', { state: { product } });
+            navigate('/checkout', { state: { orderData } });
         } catch (error) {
             console.error('Failed to place order:', error);
             toast({

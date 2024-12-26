@@ -1,6 +1,8 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Box, Flex, Text, Divider, Heading, FormControl, FormLabel, Input, Button, NumberInputField, NumberInput, Textarea} from '@chakra-ui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateRecipient } from '../../redux/features/RecipientInfo/recipientSlice';
 
 function Checkout() {
     const [message, setMessage] = useState('');
@@ -9,10 +11,14 @@ function Checkout() {
     const [recipientAddress, setAddress] = useState('');
     const [zipCode, setZipCode] = useState('');
     const [cityName, setCityName] = useState('');
+    const [order, setOrder] = useState(null);
 
     const navigate = useNavigate();
     const location = useLocation();
-    const product = location.state?.product;
+    const product = location.state?.orderData;
+    const dispatch = useDispatch();
+
+    console.log(product)
 
     const handleDeliveryInfo = async (e) => {
         e.preventDefault();
@@ -23,19 +29,41 @@ function Checkout() {
             zipCode,
             cityName
         }
-    
-        console.log(data);
 
-        const isSuccess = true; 
-        if (isSuccess) {
-            // Navigate to sender information page
-            navigate('/senderinformation',{ state: { product } });
-        } else {
-            setMessage('Failed to submit delivery information. Please try again.');
-        }
+        dispatch(updateRecipient(data));
+
+        try {
+          // Get orderId from the product object
+          const orderId = product?._id || order?._id;
+          if (!orderId) {
+              setMessage("Order ID is missing.");
+              return;
+          }
+
+          const response = await fetch(`/updateRecipient/${orderId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Response Error:", errorData);
+            throw new Error(errorData.error || "Failed to update recipient details.");
+          }
+
+          const updatedOrder = await response.json();
+          console.log("Updated order:", updatedOrder);
+
+          // Navigate to sender information page
+          navigate("/senderinformation", { state: { orderId, product } });
+      } catch (err) {
+          console.error(err);
+          setMessage("Failed to submit delivery information. Please try again.");
+      }
     };
 
-
+    const displayProduct = product || order;
 
   return (
     <Flex
@@ -135,13 +163,13 @@ function Checkout() {
           Order Summary
         </Heading>
         <Divider mb={4} />
-        {product ? (
+        {displayProduct ? (
           <>
-              <Text mb={2}>Product Name: {product.name}</Text>
-              <Text mb={2}>Price: {product.price} TL</Text>
+              <Text mb={2}>Product Name: {displayProduct.productName}</Text>
+              <Text mb={2}>Price: {displayProduct.price} TL</Text>
               <Text mb={2}>Quantity: 1</Text>
               <Divider my={4} />
-              <Text fontWeight="bold">Total: {product.price} TL</Text>
+              <Text fontWeight="bold">Total: {displayProduct.price} TL</Text>
           </>
         ) : (
           <Text>No products selected.</Text>
