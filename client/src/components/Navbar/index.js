@@ -23,6 +23,7 @@ function Navbar() {
       navigate(`/catalog?search=${search.trim()}`); // Redirect to the catalog page with the search query
     }
   };
+  console.log(search);
 
   const handleCartToggle = () => {
     setisCartVisible(!isCartVisible);
