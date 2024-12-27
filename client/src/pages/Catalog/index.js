@@ -4,7 +4,6 @@ import { Grid } from '@chakra-ui/react';
 import Card from '../../components/Card';
 import FilterBar from '../../components/FilterBar';
 import { useFetchAllProductsQuery } from '../../redux/features/Products/productApi';
-import { useLocation } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 
 
@@ -14,15 +13,15 @@ function Catalog() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [filtersState, setFiltersState] = useState({
+  const [filters, setFilters] = useState({
     flowerType: "all",
-    flowerType: "all", 
+    occasion: "", 
     designType: "all", 
-    occasion: ""
+    sort: "default"
   })
   const [currentPage, setCurrentPage] = useState(1);
   const [ProductsPerPage] = useState(12);
-  const { flowerType, designType, occasion, price} = filtersState;
+  console.log(filters);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -31,7 +30,7 @@ function Catalog() {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/api/products?search=${query}&page=${currentPage}&limit=${ProductsPerPage}`
+          `http://localhost:5000/api/products?search=${query}&flowerType=${filters.flowerType}&designType=${filters.designType}&occasion=${filters.occasion}&sort=${filters.sort}&page=${currentPage}&limit=${ProductsPerPage}`
         );
 
         if (!response.ok) {
@@ -49,7 +48,7 @@ function Catalog() {
     };
 
     fetchProducts();
-  }, [query, currentPage, ProductsPerPage]);
+  }, [query, currentPage, ProductsPerPage, filters]);
 
   const noProductsFound = query && products.length === 0;
 
@@ -75,7 +74,7 @@ function Catalog() {
   return (
     <div>
       <div>
-        <FilterBar />
+        <FilterBar filters={filters} setFilters={setFilters} />
       </div>
       <div>
         {isLoading ? (
