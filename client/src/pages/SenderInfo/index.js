@@ -74,7 +74,7 @@ function SenderInfo() {
         boxShadow="sm"
         >
         <Heading size="md" mb={4} color="#3D52A0">
-            Delivery Information
+            Sender Information
         </Heading>
         <Divider mb={4} />
         <form onSubmit={handleSenderInfo}>

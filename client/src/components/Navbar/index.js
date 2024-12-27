@@ -1,11 +1,12 @@
 import styles from './styles.module.css';
 import React, {useState} from 'react';
-import { Button, Icon, Input } from '@chakra-ui/react';
+import { Button, Icon, Input, Image } from '@chakra-ui/react';
 import { FaShoppingCart } from 'react-icons/fa'; 
 import {Link, useNavigate } from "react-router-dom";
 import ShoppingCart from '../../pages/ShoppingCart/index';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearUser } from '../../redux/features/Auth/authslice';
+import logo from '../../data/logo.png'
 
 // created the navbar to navigate through pages
 
@@ -22,6 +23,7 @@ function Navbar() {
       navigate(`/catalog?search=${search.trim()}`); // Redirect to the catalog page with the search query
     }
   };
+  console.log(search);
 
   const handleCartToggle = () => {
     setisCartVisible(!isCartVisible);
@@ -39,7 +41,9 @@ function Navbar() {
       <nav className={styles.nav}>
           <div className={styles.left}>
             <div className="logo">
-                <Link to="/">FioriVista</Link>
+                <Link to="/">
+                  <Image height="50px" src={logo} />
+                </Link>
             </div>
 
             <ul className={styles.search}>
@@ -97,15 +101,6 @@ function Navbar() {
                 </Link>
               </>
             )}
-            {/* <Link to="/help">
-              <Button color="#FDFDFF" bg="rgba(255, 255, 255, 0)" _hover={{ color: '#323232' }} variant='link'>Help</Button>
-            </Link>
-            <Link to="/signup">
-              <Button color="#FDFDFF" bg="rgba(255, 255, 255, 0)" _hover={{ color: '#323232' }} variant='link'>Sign up</Button>
-            </Link>
-            <Link to="/login">
-              <Button color="#FDFDFF" bg="rgba(255, 255, 255, 0)" _hover={{ color: '#323232' }} variant='link'>Log in</Button>
-            </Link> */}
             <Button color="#FDFDFF" bg="rgba(255, 255, 255, 0)" _hover={{ color: '#323232' }} variant='link'
             onClick={handleCartToggle}
             >

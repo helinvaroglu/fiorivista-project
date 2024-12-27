@@ -1,39 +1,70 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect } from 'react';
 import { Grid } from '@chakra-ui/react';
 
 import Card from '../../components/Card';
 import FilterBar from '../../components/FilterBar';
 import { useFetchAllProductsQuery } from '../../redux/features/Products/productApi';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 
 function Catalog() {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const search = queryParams.get('search') || '';
-  const [filtersState, setFiltersState] = useState({
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('search') || '';
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [filters, setFilters] = useState({
     flowerType: "all",
-    flowerType: "all", 
+    occasion: "", 
     designType: "all", 
-    occasion: ""
+    sort: "default"
   })
   const [currentPage, setCurrentPage] = useState(1);
   const [ProductsPerPage] = useState(12);
-  const { flowerType, designType, occasion, price} = filtersState;
+  console.log(filters);
 
-  const {data: {products = [], totalPages, totalProducts} = {}, error, isLoading} = useFetchAllProductsQuery({
-    flowerType: flowerType, 
-    designType: designType, 
-    occasion: occasion, 
-    price: price, 
-    search: search,
-    page: currentPage, 
-    limit: ProductsPerPage,
-  });
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      setError(null);
 
-  console.log("Search Query:", search);
-  console.log("Products from API:", products);
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/products?search=${query}&flowerType=${filters.flowerType}&designType=${filters.designType}&occasion=${filters.occasion}&sort=${filters.sort}&page=${currentPage}&limit=${ProductsPerPage}`
+        );
 
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+
+        const data = await response.json();
+        setProducts(data.products || []);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [query, currentPage, ProductsPerPage, filters]);
+
+  const noProductsFound = query && products.length === 0;
+
+  // const {
+  //   data: { products = [], totalPages, totalProducts } = {},
+  //   error,
+  //   isLoading,
+  // } = useFetchAllProductsQuery({
+  //   flowerType,
+  //   designType,
+  //   occasion,
+  //   price,
+  //   search: query, 
+  //   page: currentPage,
+  //   limit: ProductsPerPage,
+  // });
 
 
   if(isLoading) return <div>Loading...</div>
@@ -43,11 +74,15 @@ function Catalog() {
   return (
     <div>
       <div>
-        <FilterBar />
+        <FilterBar filters={filters} setFilters={setFilters} />
       </div>
       <div>
-        {search && products.length === 0 ? (
-          <div>No products found for "{search}"</div> // Show a message if no results match the search
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>Error: {error}</div>
+        ) : noProductsFound ? (
+          <div>No products found for "{query}"</div>
         ) : (
           <Card products={products}></Card>
         )}
