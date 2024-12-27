@@ -13,7 +13,7 @@ function FilterBar({ filters, setFilters }) {
   };
   return (
     <nav className={styles.nav}>
-        <Box>
+        <Box mr={5} ml={5} className="dropdown-container">
           <Select
             placeholder="Flower Type"
             name="flowerType"
@@ -21,9 +21,10 @@ function FilterBar({ filters, setFilters }) {
             onChange={handleFilterChange}
             size="sm"
             width="150px"
-            variant="outline"
+            variant="unstyled"
+            color="#3D52A0"
+            fontSize={15}
           >
-            <option value="all">All</option>
             <option value="rose">Rose</option>
             <option value="tulip">Tulip</option>
             <option value="sunflower">Sunflower</option>
@@ -32,17 +33,18 @@ function FilterBar({ filters, setFilters }) {
         <Center height='20px'>
             <Divider orientation='vertical' />
         </Center>
-        <Box>
+        <Box mr={5} ml={5}>
           <Select
             placeholder="Design Type"
             name="designType"
-            value={filters.designType || 'all'}
+            value={filters.designType || ''}
             onChange={handleFilterChange}
             size="sm"
             width="150px"
-            variant="outline"
+            variant="unstyled"
+            color="#3D52A0"
+            fontSize={15}
           >
-            <option value="all">All</option>
             <option value="bouquet">Bouquet</option>
             <option value="basket">Basket</option>
             <option value="arrangement">Arrangement</option>
@@ -51,7 +53,7 @@ function FilterBar({ filters, setFilters }) {
         <Center height='20px'>
             <Divider orientation='vertical' />
         </Center>
-        <Box>
+        <Box mr={5} ml={5}>
           <Select
             placeholder="Occasion"
             name="occasion"
@@ -59,19 +61,21 @@ function FilterBar({ filters, setFilters }) {
             onChange={handleFilterChange }
             size="sm"
             width="150px"
-            variant="outline"
+            variant="unstyled"
+            color="#3D52A0"
+            fontSize={15}
           >
             <option value="birthday">Birthday</option>
             <option value="anniversary">Anniversary</option>
-            <option value="getWell">Get Well Soon</option>
-            <option value="momsday">Mother's Day</option>
-            <option value="dadsday">Father's Day</option>
+            <option value="thank you">Thank You</option>
+            <option value="mother's day">Mother's Day</option>
+            <option value="father's day">Father's Day</option>
           </Select>
         </Box>
         <Center height='20px'>
             <Divider orientation='vertical' />
         </Center>
-        <Box>
+        <Box mr={5} ml={5}>
           <Select
             placeholder="Sort By"
             name="sort"
@@ -79,9 +83,10 @@ function FilterBar({ filters, setFilters }) {
             onChange={handleFilterChange}
             size="sm"
             width="150px"
-            variant="outline"
+            variant="unstyled"
+            color="#3D52A0"
+            fontSize={15}
           >
-            <option value="default">Default</option>
             <option value="priceAsc">Price: Low to High</option>
             <option value="priceDesc">Price: High to Low</option>
             <option value="ratingDesc">Rating: High to Low</option>

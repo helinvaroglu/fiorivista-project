@@ -101,15 +101,6 @@ function Navbar() {
                 </Link>
               </>
             )}
-            {/* <Link to="/help">
-              <Button color="#FDFDFF" bg="rgba(255, 255, 255, 0)" _hover={{ color: '#323232' }} variant='link'>Help</Button>
-            </Link>
-            <Link to="/signup">
-              <Button color="#FDFDFF" bg="rgba(255, 255, 255, 0)" _hover={{ color: '#323232' }} variant='link'>Sign up</Button>
-            </Link>
-            <Link to="/login">
-              <Button color="#FDFDFF" bg="rgba(255, 255, 255, 0)" _hover={{ color: '#323232' }} variant='link'>Log in</Button>
-            </Link> */}
             <Button color="#FDFDFF" bg="rgba(255, 255, 255, 0)" _hover={{ color: '#323232' }} variant='link'
             onClick={handleCartToggle}
             >

@@ -12,3 +12,12 @@
     background-color: #ADBBDA;
     align-items: center;
 }
+
+.dropdown-container Select {
+    font-weight: bold; /* Make header bold */
+  }
+  
+.dropdown-container select option:hover {
+    background-color: #f0f0f0; /* Light gray hover color */
+    color: black; /* Optional: Change font color */
+  }
