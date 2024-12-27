@@ -6,25 +6,29 @@ const Products = require('./products.model');
 // get all products
 router.get('/', async (req,res) => {
     try {
-        const {flowerType, designType, occasion, price, page=1, limit=10, search} = req.query;
+        const {flowerType, designType, occasion, sort, page=1, limit=10, search} = req.query;
         let filter = {};
         if(flowerType && flowerType !== "all"){
-            filter.flowerType = flowerType;
+            filter.flowerType = { $regex: `^${flowerType}$`, $options: 'i' };
         }
         if(designType && designType !== "all"){
-            filter.designType = designType;
+            filter.designType = { $regex: `^${designType}$`, $options: 'i' };
         }
-        if(occasion && occasion !== "all"){
-            filter.occasion = occasion;
-        }
-        if(price) {
-            if(!isNaN(price)){
-                filter.price = price;
-            }
+        if(occasion){
+            filter.occasion = { $regex: `^${occasion}$`, $options: 'i' };
         }
         
         if (search) {
             filter.name = { $regex: search, $options: "i" }; // Case-insensitive search
+        }
+
+        let sortOption = {};
+        if (sort === 'priceAsc') {
+        sortOption.price = 1;
+        } else if (sort === 'priceDesc') {
+        sortOption.price = -1;
+        } else if (sort === 'ratingDesc') {
+        sortOption.rating = -1;
         }
 
         const skip = (parseInt(page) - 1) * parseInt(limit);
@@ -34,7 +38,8 @@ router.get('/', async (req,res) => {
             .skip(skip)
             .limit(parseInt(limit))
             .sort({createdAt: -1})
-            .select("_id name flowerType designType occasion price description image rating");
+            .select("_id name flowerType designType occasion price description image rating")
+            .sort(sortOption);
 
         res.status(200).send({products, totalPages, totalProducts});
 
