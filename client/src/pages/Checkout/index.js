@@ -3,6 +3,7 @@ import { Box, Flex, Text, Divider, Heading, FormControl, FormLabel, Input, Butto
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateRecipient } from '../../redux/features/RecipientInfo/recipientSlice';
+import { getBaseUrl } from '../../utils/baseUrl';
 
 function Checkout() {
     const [message, setMessage] = useState('');
@@ -40,7 +41,7 @@ function Checkout() {
               return;
           }
 
-          const response = await fetch(`http://localhost:5000/api/orders/updateRecipient/${orderId}`, {
+          const response = await fetch(`${getBaseUrl()}/api/orders/updateRecipient/${orderId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
