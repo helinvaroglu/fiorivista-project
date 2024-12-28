@@ -5,6 +5,7 @@ import Card from '../../components/Card';
 import FilterBar from '../../components/FilterBar';
 import { useFetchAllProductsQuery } from '../../redux/features/Products/productApi';
 import { useSearchParams } from 'react-router-dom';
+import { getBaseUrl } from '../../utils/baseUrl';
 
 
 function Catalog() {
@@ -30,7 +31,7 @@ function Catalog() {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/api/products?search=${query}&flowerType=${filters.flowerType}&designType=${filters.designType}&occasion=${filters.occasion}&sort=${filters.sort}&page=${currentPage}&limit=${ProductsPerPage}`
+          `http://${getBaseUrl}/products?search=${query}&flowerType=${filters.flowerType}&designType=${filters.designType}&occasion=${filters.occasion}&sort=${filters.sort}&page=${currentPage}&limit=${ProductsPerPage}`
         );
 
         if (!response.ok) {
