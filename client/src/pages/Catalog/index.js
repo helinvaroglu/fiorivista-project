@@ -31,7 +31,7 @@ function Catalog() {
 
       try {
         const response = await fetch(
-          `http://${getBaseUrl}/products?search=${query}&flowerType=${filters.flowerType}&designType=${filters.designType}&occasion=${filters.occasion}&sort=${filters.sort}&page=${currentPage}&limit=${ProductsPerPage}`
+          `http://${getBaseUrl()}/products?search=${query}&flowerType=${filters.flowerType}&designType=${filters.designType}&occasion=${filters.occasion}&sort=${filters.sort}&page=${currentPage}&limit=${ProductsPerPage}`
         );
 
         if (!response.ok) {
