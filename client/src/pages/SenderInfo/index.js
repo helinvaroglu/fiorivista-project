@@ -3,6 +3,7 @@ import { Box, Flex, Text, Divider, Heading, FormControl, FormLabel, Input, Butto
 import { useNavigate, useLocation } from 'react-router-dom';
 import { updateSender } from '../../redux/features/SenderInfo/senderSlice';
 import { useDispatch } from 'react-redux';
+import { getBaseUrl } from '../../utils/baseUrl';
 
 function SenderInfo() {
     const [message, setMessage] = useState('');
@@ -34,7 +35,7 @@ function SenderInfo() {
                 return;
             }
 
-            const response = await fetch(`http://localhost:5000/api/orders/updateSender/${orderId}`, {
+            const response = await fetch(`${getBaseUrl()}/api/orders/updateSender/${orderId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),

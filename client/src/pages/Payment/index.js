@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { Select, Box, Flex, Text, Divider, Heading, FormControl, FormLabel, Input, Button, NumberInputField, NumberInput, ButtonGroup, Spacer} from '@chakra-ui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { getBaseUrl } from '../../utils/baseUrl';
 
 function Payment() {
     const [message, setMessage] = useState('');
@@ -35,7 +36,7 @@ function Payment() {
             }
     
             // Finalize order and generate tracking key
-            const response = await fetch(`http://localhost:5000/api/orders/finalizeOrder/${orderId}`, {
+            const response = await fetch(`${getBaseUrl()}/api/orders/finalizeOrder/${orderId}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
             });

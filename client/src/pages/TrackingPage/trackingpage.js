@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { Box, Input, Button, Text, Flex } from '@chakra-ui/react';
+import { getBaseUrl } from '../../utils/baseUrl';
 
 
 function TrackingPage() {
@@ -10,7 +11,7 @@ function TrackingPage() {
 
     const handleTrackOrder = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/orders/track/${trackingKey}`);
+            const response = await fetch(`${getBaseUrl()}/api/orders/track/${trackingKey}`);
             if (!response.ok) {
                 throw new Error("Order not found.");
             }
