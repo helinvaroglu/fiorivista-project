@@ -29,8 +29,8 @@ const Card = ({products}) => {
         {products.map((product) => (
             <Box key={product._id} className='product-card' borderWidth="1px" borderRadius="lg" overflow="hidden" p="3" pb="0" bg="#ADBBDA" justify="center" align="center">
                 <Link to={`/products/${product._id}`}>
-                    <Box width="350px" height="200px"  overflow="hidden">
-                        <Image  width="300px"  height="100%" objectFit='cover' src={product.image}  alt="product" />
+                    <Box width="320px" height="200px"  overflow="hidden">
+                        <Image  width="100%"  height="100%" objectFit='cover' src={product.image}  alt="product" />
                     </Box>
                 </Link>
 
